@@ -1,5 +1,8 @@
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
+
+const {body, validationResult, check} = require('express-validator');
+
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
@@ -73,7 +76,52 @@ app.get('/contact', async (req, res) => {
 });
 
 
+// Halaman About
+app.get('/about', (req, res) => {
+  res.render('about', {title : 'Halaman About', layout : 'layouts/main-layout.ejs'});
+});
+
+
+// Halaman Form Tambah Contact
+app.get('/contact/add', (req, res) => {
+  res.render('add-contact', {title : 'Form Tambah Contact', layout : 'layouts/main-layout.ejs'});
+});
+
+
+// Proses Tambah Data Contact
+app.post('/contact', 
+[
+  body('nama').custom(async value => {
+    const duplikat = await Contact.findOne({nama: value});
+    if(duplikat){
+      throw new Error('Nama sudah ada');
+    }
+    return true;
+  }),
+  check('email', 'Email Tidak Valid').isEmail(), 
+  check('nomorHp', 'Nomor HP Tidak Valid').isMobilePhone('id-ID')
+] ,(req, res) => {
+
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    res.render('add-contact', 
+    {
+      title   : 'Form Tambah Contact', 
+      layout  : 'layouts/main-layout.ejs',
+      errors  : errors.array()
+    });
+  }else {
+    // Pakai insertMany karena bentuknya udah object
+    Contact.insertMany(req.body, (error, result) => {
+      req.flash('msg', 'Data berhasil ditambahkan');
+      res.redirect('/contact');
+    });
+  };
+});
+
+
 // Halaman Detail Contact
+// Harus diletakkan paling akhir, biar route lain kebaca
 app.get('/contact/:nama', async (req, res) => {
   const contact = await Contact.findOne({nama: req.params.nama});
 
