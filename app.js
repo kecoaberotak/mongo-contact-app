@@ -73,6 +73,14 @@ app.get('/contact', async (req, res) => {
 });
 
 
+// Halaman Detail Contact
+app.get('/contact/:nama', async (req, res) => {
+  const contact = await Contact.findOne({nama: req.params.nama});
+
+  res.render('detail', {title : 'Halaman Detail Contact', layout : 'layouts/main-layout.ejs', contact});
+});
+
+
 app.listen(port, () => {
   console.log(`Mongo Contact App | Listening at http://localhost:${port}`);
 });
