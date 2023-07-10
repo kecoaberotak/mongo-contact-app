@@ -1,0 +1,19 @@
+{
+  "name": "mongo-contact-app",
+  "version": "1.0.0",
+  "description": "Contact app pake database mongodb",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kecoaberotak/mongo-contact-app.git"
+  },
+  "author": "Dennis Fernandes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kecoaberotak/mongo-contact-app/issues"
+  },
+  "homepage": "https://github.com/kecoaberotak/mongo-contact-app#readme"
+}
