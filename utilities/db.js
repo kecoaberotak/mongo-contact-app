@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/coba', {
+mongoose.connect('mongodb+srv://dennis:ea123ea@cluster0.0titc.mongodb.net/coba', {
   useNewUrlParser: true, 
   useUnifiedTopology: true,
   useCreateIndex: true
 });
-
-// Membuat Schema
